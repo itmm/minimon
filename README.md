@@ -41,3 +41,8 @@ That way you can change the current memory address.
 ### Executing a function
 
 With `j` you can jump to the machine programm at the current memory address.
+
+## Building
+
+You can build `minimon` by running `make` on your terminal.
+
