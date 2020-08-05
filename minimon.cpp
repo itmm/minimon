@@ -9,7 +9,7 @@ unsigned nibbles;
 constexpr auto ADDR_NIBBLES { 2 * sizeof(addr) };
 
 inline int get() { return std::cin.get(); }
-void put(int ch) { std::cout.put(ch); }
+inline void put(int ch) { std::cout.put(ch); }
 void put(const char *str) {
 	while (*str) { put(*str++); }
 }
@@ -40,7 +40,6 @@ void clear() {
 	nibbles = ADDR_NIBBLES;
 	write_addr();
 }
-
 
 void add(char ch, int nibble) {
 	if (nibbles == ADDR_NIBBLES + 2) {
