@@ -2,12 +2,13 @@
 #include <termios.h>
 #include <unistd.h>
 
-unsigned addr { 0 };
-unsigned value { 0 };
-unsigned nibbles { 4 };
-unsigned char buffer[1000];
+unsigned long addr;
+unsigned char value;
+unsigned nibbles;
 
-int get() { return std::cin.get(); }
+constexpr auto ADDR_NIBBLES { 2 * sizeof(addr) };
+
+inline int get() { return std::cin.get(); }
 void put(int ch) { std::cout.put(ch); }
 void put(const char *str) {
 	while (*str) { put(*str++); }
@@ -23,28 +24,26 @@ void write_nibble(int nibble) {
 	}
 }
 
-bool valid_addr() {
-	return addr < sizeof(buffer);
+void write_addr(unsigned long addr, int cnt) {
+	if (cnt) { write_addr(addr >> 4, cnt - 1); }
+	write_nibble(static_cast<int>(addr & 0xf));
 }
 
-void write_addr() {
-	write_nibble(addr >> 12);
-	write_nibble((addr >> 8) & 0xf);
-	write_nibble((addr >> 4) & 0xf);
-	write_nibble(addr & 0xf);
+inline void write_addr() {
+	write_addr(addr, ADDR_NIBBLES - 1);
 	put(": ");
 }
 
 void clear() {
 	++addr;
 	value = 0;
-	nibbles = 4;
+	nibbles = ADDR_NIBBLES;
 	write_addr();
 }
 
 
 void add(char ch, int nibble) {
-	if (nibbles == 6) {
+	if (nibbles == ADDR_NIBBLES + 2) {
 		addr = value;
 		nibbles = 2;
 		put("\x1b[0E\x1b[2K");
@@ -52,14 +51,18 @@ void add(char ch, int nibble) {
 		write_nibble(value & 0xf);
 		value = 0;
 	}
-	if (nibbles < 4) {
+	if (nibbles < ADDR_NIBBLES) {
 		addr = (addr << 4) + nibble;
 	} else {
 		value = (value << 4 ) + nibble;
 	}
 	++nibbles;
 	put(ch);
-	if (nibbles == 4) { put(": "); }
+	if (nibbles == ADDR_NIBBLES) { put(": "); }
+}
+
+void hello() {
+	put("Hello World.\n");
 }
 
 int main() {
@@ -77,7 +80,9 @@ int main() {
 			}
 	} terminal_switcher;
 
-	write_addr();
+	addr = reinterpret_cast<unsigned long>(hello);
+	--addr;
+	clear();
 	for (;;) {
 		int ch { get() };
 		if (ch == EOF || ch == 0x04) { break; }
@@ -86,21 +91,24 @@ int main() {
 		} else if (ch >= 'a' && ch <= 'f') {
 			add(ch, ch - 'a' + 10);
 		} else if (ch == '\r' || ch == '\n') {
-			if (nibbles == 6) {
-				if (valid_addr() && value <= 255) {
-					buffer[addr] = static_cast<unsigned char>(value);
-					put('\n');
-				}
-				clear();
-			} else if (nibbles == 4) {
-				if (valid_addr()) {
-					value = buffer[addr];
-					write_nibble(value >> 4);
-					write_nibble(value & 0xf);
-					put('\n');
-				}
-				clear();
+			if (nibbles == ADDR_NIBBLES + 2) {
+				*reinterpret_cast<unsigned char *>(addr) = value;
+			} else if (nibbles == ADDR_NIBBLES) {
+				value = *reinterpret_cast<unsigned char *>(addr);
+				write_nibble(value >> 4);
+				write_nibble(value & 0xf);
+			} else {
+				put('\a');
+				continue;
 			}
+			put('\n');
+			clear();
+		} else if (ch == 'j' && nibbles == ADDR_NIBBLES) {
+			put("jump\n");
+			reinterpret_cast<void (*)()>(addr)();
+			clear();
+		} else {
+			put('\a');
 		}
 	}
 }
