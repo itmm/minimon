@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Minimon - a minimal monitor program</title>
+<link rel="stylesheet" type="text/css" href="slides/slides.css"></head>
+<body>
+<h1>Minimon - a minimal monitor program</h1>
+<div class="slides">
+<div class="page">
+<div class="slide slide-header"><div class="slide-nr">1</div><div class="headers">
+<h1>Minimon - a minimal monitor program</h1>
+</div></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">2</div>
+<code>
+<span class="macro">@Def(<span class="name">file: minimon.cpp</span>)</span><br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">includes</span>)</span><br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">needed by main</span>)</span><br/>
+<span class="in1"></span><span class="type">int</span> <span class="fn">main</span>() {<br/>
+<span class="in2"></span><span class="macro">@put(<span class="name">main</span>)</span><br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@End(<span class="name">file: minimon.cpp</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">3</div>
+<code>
+<span class="macro">@def(<span class="name">main</span>)</span><br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">setup</span>)</span><br/>
+<span class="in1"></span><span class="keyword">for</span> (;;) {<br/>
+<span class="in2"></span><span class="macro">@put(<span class="name">main loop</span>)</span><br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">main</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">4</div>
+<code>
+<span class="macro">@def(<span class="name">includes</span>)</span><br/>
+<span class="in1"></span><span class="keyword">#include</span> &lt;<span class="var">iostream</span>&gt;<br/>
+<span class="macro">@end(<span class="name">includes</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">5</div>
+<code>
+<span class="macro">@def(<span class="name">needed by main</span>)</span><br/>
+<span class="in1"></span><span class="keyword">inline</span> <span class="type">int</span> <span class="fn">get</span>() {<br/>
+<span class="in2"></span><span class="keyword">return</span> <span class="type">std</span>::<span class="var">cin</span>.<span class="fn">get</span>();<br/>
+<span class="in1"></span>}<br/>
+<span class="in1"></span><span class="keyword">inline</span> <span class="type">void</span> <span class="fn">put</span>(<span class="type">int</span> <span class="var">ch</span>) {<br/>
+<span class="in2"></span><span class="type">std</span>::<span class="var">cout</span>.<span class="fn">put</span>(<span class="var">ch</span>);<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">needed by main</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">6</div>
+<code>
+<span class="macro">@add(<span class="name">needed by main</span>)</span><br/>
+<span class="in1"></span><span class="type">void</span> <span class="fn">put</span>(<span class="type">const</span> <span class="type">char</span> *<span class="var">str</span>) {<br/>
+<span class="in2"></span><span class="keyword">while</span> (*<span class="var">str</span>) { <span class="fn">put</span>(*<span class="var">str</span>++); }<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">needed by main</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">7</div>
+<code>
+<span class="macro">@def(<span class="name">main loop</span>)</span><br/>
+<span class="in1"></span><span class="type">int</span> <span class="var">ch</span> { <span class="fn">get</span>() };<br/>
+<span class="in1"></span><span class="keyword">if</span> (<br/>
+<span class="in2"></span><span class="var">ch</span> == <span class="num">EOF</span> || <span class="var">ch</span> == <span class="num">0x04</span> ||<br/>
+<span class="in2"></span><span class="var">ch</span> == <span class="str">'q'</span><br/>
+<span class="in1"></span>) {<br/>
+<span class="in2"></span><span class="fn">put</span>(<span class="str">"quit\n"</span>);<br/>
+<span class="in2"></span><span class="keyword">break</span>;<br/>
+<span class="in1"></span>}<br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">other input cases</span>)</span><br/>
+<span class="in1"></span><span class="keyword">else</span> {<br/>
+<span class="in2"></span><span class="fn">put</span>(<span class="str">'\a'</span>);<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">main loop</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">8</div>
+<code>
+<span class="macro">@add(<span class="name">needed by main</span>)</span><br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">needed by add</span>)</span><br/>
+<span class="in1"></span><span class="type">void</span> <span class="fn">add</span>(<span class="type">char</span> <span class="var">ch</span>, <span class="type">int</span> <span class="var">nibble</span>) {<br/>
+<span class="in2"></span><span class="macro">@put(<span class="name">add</span>)</span><br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">needed by main</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">9</div>
+<code>
+<span class="macro">@def(<span class="name">other input cases</span>)</span><br/>
+<span class="in1"></span><span class="keyword">else</span> <span class="keyword">if</span> (<span class="var">ch</span> &gt;= <span class="str">'0'</span> &amp;&amp; <span class="var">ch</span> &lt;= <span class="str">'9'</span>) {<br/>
+<span class="in2"></span><span class="fn">add</span>(<span class="var">ch</span>, <span class="var">ch</span> - <span class="str">'0'</span>);<br/>
+<span class="in1"></span>} <span class="keyword">else</span> <span class="keyword">if</span> (<span class="var">ch</span> &gt;= <span class="str">'a'</span> &amp;&amp; <span class="var">ch</span> &lt;= <span class="str">'f'</span>) {<br/>
+<span class="in2"></span><span class="fn">add</span>(<span class="var">ch</span>, <span class="var">ch</span> - <span class="str">'a'</span> + <span class="num">10</span>);<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">other input cases</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">10</div>
+<code>
+<span class="macro">@def(<span class="name">needed by add</span>)</span><br/>
+<span class="in1"></span><span class="type">unsigned</span> <span class="type">long</span> <span class="var">addr</span>;<br/>
+<span class="in1"></span><span class="type">unsigned</span> <span class="type">char</span> <span class="var">value</span>;<br/>
+<span class="in1"></span><span class="type">unsigned</span> <span class="var">nibbles</span>;<br/>
+<span class="macro">@end(<span class="name">needed by add</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">11</div>
+<code>
+<span class="macro">@add(<span class="name">needed by add</span>)</span><br/>
+<span class="in1"></span><span class="keyword">constexpr</span> <span class="type">auto</span> <span class="var">ADDR_NIBBLES</span> { <span class="num">2</span> * <span class="fn">sizeof</span>(<span class="var">addr</span>) };<br/>
+<span class="macro">@end(<span class="name">needed by add</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">12</div>
+<code>
+<span class="macro">@add(<span class="name">needed by main</span>)</span><br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">needed by clear</span>)</span><br/>
+<span class="in1"></span><span class="type">void</span> <span class="fn">clear</span>() {<br/>
+<span class="in2"></span><span class="macro">@put(<span class="name">clear</span>)</span><br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">needed by main</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">13</div>
+<code>
+<span class="macro">@add(<span class="name">needed by main</span>)</span><br/>
+<span class="in1"></span><span class="type">void</span> <span class="fn">hello</span>() {<br/>
+<span class="in2"></span><span class="fn">put</span>(<span class="str">"Hello World.\n"</span>);<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">needed by main</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">14</div>
+<code>
+<span class="macro">@def(<span class="name">setup</span>)</span><br/>
+<span class="in1"></span><span class="macro">@put(<span class="name">terminal switcher</span>)</span><br/>
+<span class="in1"></span><span class="var">addr</span> =<br/>
+<span class="in2"></span><span class="var">reinterpret_cast</span>&lt;<span class="type">unsigned</span> <span class="type">long</span>&gt;(<br/>
+<span class="in3"></span><span class="var">hello</span><br/>
+<span class="in2"></span>);<br/>
+<span class="in1"></span>--<span class="var">addr</span>;<br/>
+<span class="in1"></span><span class="fn">clear</span>();<br/>
+<span class="macro">@end(<span class="name">setup</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">15</div>
+<code>
+<span class="macro">@add(<span class="name">needed by add</span>)</span><br/>
+<span class="in1"></span><span class="type">void</span> <span class="fn">write_nibble</span>(<span class="type">int</span> <span class="var">nibble</span>) {<br/>
+<span class="in2"></span><span class="keyword">if</span> (<span class="var">nibble</span> &gt;= <span class="num">0</span>) {<br/>
+<span class="in3"></span><span class="keyword">if</span> (<span class="var">nibble</span> &lt;= <span class="num">9</span>) {<br/>
+<span class="in4"></span><span class="fn">put</span>(<span class="str">'0'</span> + <span class="var">nibble</span>);<br/>
+<span class="in3"></span>} <span class="keyword">else</span> <span class="keyword">if</span> (<span class="var">nibble</span> &lt;= <span class="num">15</span>) {<br/>
+<span class="in4"></span><span class="fn">put</span>(<span class="str">'a'</span> + <span class="var">nibble</span> - <span class="num">10</span>);<br/>
+<span class="in3"></span>}<br/>
+<span class="in2"></span>}<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">needed by add</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">16</div>
+<code>
+<span class="macro">@def(<span class="name">needed by clear</span>)</span><br/>
+<span class="in1"></span><span class="type">void</span> <span class="fn">write_addr</span>(<br/>
+<span class="in2"></span><span class="type">unsigned</span> <span class="type">long</span> <span class="var">addr</span>, <span class="type">int</span> <span class="var">cnt</span><br/>
+<span class="in1"></span>) {<br/>
+<span class="in2"></span><span class="keyword">if</span> (<span class="var">cnt</span>) {<br/>
+<span class="in3"></span><span class="fn">write_addr</span>(<br/>
+<span class="in4"></span><span class="var">addr</span> &gt;&gt; <span class="num">4</span>, <span class="var">cnt</span> - <span class="num">1</span><br/>
+<span class="in3"></span>);<br/>
+<span class="in2"></span>}<br/>
+<span class="in2"></span><span class="fn">write_nibble</span>(<span class="var">static_cast</span>&lt;<span class="type">int</span>&gt;(<br/>
+<span class="in3"></span><span class="var">addr</span> &amp; <span class="num">0xf</span><br/>
+<span class="in2"></span>));<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">needed by clear</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">17</div>
+<code>
+<span class="macro">@def(<span class="name">clear</span>)</span><br/>
+<span class="in1"></span>++<span class="var">addr</span>;<br/>
+<span class="in1"></span><span class="var">value</span> = <span class="num">0</span>;<br/>
+<span class="in1"></span><span class="var">nibbles</span> = <span class="var">ADDR_NIBBLES</span>;<br/>
+<span class="in1"></span><span class="fn">write_addr</span>(<span class="var">addr</span>, <span class="var">ADDR_NIBBLES</span> - <span class="num">1</span>);<br/>
+<span class="in1"></span><span class="macro">@mul(<span class="name">write separator</span>)</span><br/>
+<span class="macro">@end(<span class="name">clear</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">18</div>
+<code>
+<span class="macro">@def(<span class="name">write separator</span>)</span><br/>
+<span class="in1"></span><span class="fn">put</span>(<span class="str">": "</span>);<br/>
+<span class="macro">@end(<span class="name">write separator</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">19</div>
+<code>
+<span class="macro">@add(<span class="name">needed by add</span>)</span><br/>
+<span class="in1"></span><span class="keyword">inline</span> <span class="type">void</span> <span class="fn">write_byte</span>(<span class="type">int</span> <span class="var">byte</span>) {<br/>
+<span class="in2"></span><span class="fn">write_nibble</span>(<span class="var">byte</span> &gt;&gt; <span class="num">4</span>);<br/>
+<span class="in2"></span><span class="fn">write_nibble</span>(<span class="var">byte</span> &amp; <span class="num">0xf</span>);<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">needed by add</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">20</div>
+<code>
+<span class="macro">@def(<span class="name">add</span>)</span><br/>
+<span class="in1"></span><span class="keyword">if</span> (<span class="var">nibbles</span> == <span class="var">ADDR_NIBBLES</span> + <span class="num">2</span>) {<br/>
+<span class="in2"></span><span class="var">addr</span> = <span class="var">value</span>;<br/>
+<span class="in2"></span><span class="var">nibbles</span> = <span class="num">2</span>;<br/>
+<span class="in2"></span><span class="fn">put</span>(<span class="str">"\x1b[0E\x1b[2K"</span>);<br/>
+<span class="in2"></span><span class="fn">write_byte</span>(<span class="var">value</span>);<br/>
+<span class="in2"></span><span class="var">value</span> = <span class="num">0</span>;<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">add</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">21</div>
+<code>
+<span class="macro">@add(<span class="name">add</span>)</span><br/>
+<span class="in1"></span><span class="keyword">if</span> (<span class="var">nibbles</span> &lt; <span class="var">ADDR_NIBBLES</span>) {<br/>
+<span class="in2"></span><span class="var">addr</span> = (<span class="var">addr</span> &lt;&lt; <span class="num">4</span>) + <span class="var">nibble</span>;<br/>
+<span class="in1"></span>} <span class="keyword">else</span> {<br/>
+<span class="in2"></span><span class="var">value</span> = (<span class="var">value</span> &lt;&lt; <span class="num">4</span> ) + <span class="var">nibble</span>;<br/>
+<span class="in1"></span>}<br/>
+<span class="in1"></span>++<span class="var">nibbles</span>;<br/>
+<span class="in1"></span><span class="fn">put</span>(<span class="var">ch</span>);<br/>
+<span class="macro">@end(<span class="name">add</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">22</div>
+<code>
+<span class="macro">@add(<span class="name">add</span>)</span><br/>
+<span class="in1"></span><span class="keyword">if</span> (<span class="var">nibbles</span> == <span class="var">ADDR_NIBBLES</span>) {<br/>
+<span class="in2"></span><span class="macro">@mul(<span class="name">write separator</span>)</span><br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">add</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">23</div>
+<code>
+<span class="macro">@add(<span class="name">other input cases</span>)</span><br/>
+<span class="in1"></span><span class="keyword">else</span> <span class="keyword">if</span> (<span class="var">ch</span> == <span class="str">'\r'</span> || <span class="var">ch</span> == <span class="str">'\n'</span>) {<br/>
+<span class="in2"></span><span class="macro">@put(<span class="name">handle return</span>)</span><br/>
+<span class="in2"></span><span class="fn">put</span>(<span class="str">'\n'</span>);<br/>
+<span class="in2"></span><span class="fn">clear</span>();<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">other input cases</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">24</div>
+<code>
+<span class="macro">@def(<span class="name">handle return</span>)</span><br/>
+<span class="in1"></span><span class="keyword">if</span> (<span class="var">nibbles</span> == <span class="var">ADDR_NIBBLES</span> + <span class="num">2</span>) {<br/>
+<span class="in2"></span><span class="macro">@put(<span class="name">set byte</span>)</span><br/>
+<span class="in1"></span>} <span class="keyword">else</span> <span class="keyword">if</span> (<span class="var">nibbles</span> == <span class="var">ADDR_NIBBLES</span>) {<br/>
+<span class="in2"></span><span class="macro">@put(<span class="name">get byte</span>)</span><br/>
+<span class="in1"></span>} <span class="keyword">else</span> {<br/>
+<span class="in2"></span><span class="fn">put</span>(<span class="str">'\a'</span>);<br/>
+<span class="in2"></span><span class="keyword">continue</span>;<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">handle return</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">25</div>
+<code>
+<span class="macro">@def(<span class="name">set byte</span>)</span><br/>
+<span class="in1"></span>*<span class="var">reinterpret_cast</span>&lt;<span class="type">unsigned</span> <span class="type">char</span> *&gt;(<br/>
+<span class="in2"></span><span class="var">addr</span><br/>
+<span class="in1"></span>) = <span class="var">value</span>;<br/>
+<span class="macro">@end(<span class="name">set byte</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">26</div>
+<code>
+<span class="macro">@def(<span class="name">get byte</span>)</span><br/>
+<span class="in1"></span><span class="var">value</span> = *<span class="var">reinterpret_cast</span>&lt;<br/>
+<span class="in2"></span><span class="type">unsigned</span> <span class="type">char</span> *<br/>
+<span class="in1"></span>&gt;(<span class="var">addr</span>);<br/>
+<span class="in1"></span><span class="fn">write_byte</span>(<span class="var">value</span>);<br/>
+<span class="macro">@end(<span class="name">get byte</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">27</div>
+<code>
+<span class="macro">@add(<span class="name">other input cases</span>)</span><br/>
+<span class="in1"></span><span class="keyword">else</span> <span class="keyword">if</span> (<span class="var">ch</span> == <span class="str">'j'</span> &amp;&amp;<br/>
+<span class="in2"></span><span class="var">nibbles</span> == <span class="var">ADDR_NIBBLES</span><br/>
+<span class="in1"></span>) {<br/>
+<span class="in2"></span><span class="fn">put</span>(<span class="str">"jump\n"</span>);<br/>
+<span class="in2"></span><span class="var">reinterpret_cast</span>&lt;<br/>
+<span class="in3"></span><span class="type">void</span> (*)()<br/>
+<span class="in2"></span>&gt;(<span class="var">addr</span>)();<br/>
+<span class="in2"></span><span class="fn">clear</span>();<br/>
+<span class="in1"></span>}<br/>
+<span class="macro">@end(<span class="name">other input cases</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">28</div>
+<code>
+<span class="macro">@add(<span class="name">includes</span>)</span><br/>
+<span class="in1"></span><span class="keyword">#include</span> &lt;<span class="var">termios</span>.<span class="var">h</span>&gt;<br/>
+<span class="in1"></span><span class="keyword">#include</span> &lt;<span class="var">unistd</span>.<span class="var">h</span>&gt;<br/>
+<span class="macro">@end(<span class="name">includes</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">29</div>
+<code>
+<span class="macro">@def(<span class="name">terminal switcher</span>)</span><br/>
+<span class="in1"></span><span class="keyword">class</span> <span class="type">Terminal_Switcher</span> {<br/>
+<span class="in3"></span><span class="var">termios</span> <span class="var">orig_</span>;<br/>
+<span class="in2"></span><span class="keyword">public</span>:<br/>
+<span class="in3"></span><span class="fn">Terminal_Switcher</span>() {<br/>
+<span class="in4"></span><span class="macro">@put(<span class="name">switch to raw</span>)</span><br/>
+<span class="in3"></span>}<br/>
+<span class="in3"></span>~<span class="fn">Terminal_Switcher</span>() {<br/>
+<span class="in4"></span><span class="macro">@put(<span class="name">switch back</span>)</span><br/>
+<span class="in3"></span>}<br/>
+<span class="in1"></span>} <span class="var">terminal_switcher</span>;<br/>
+<span class="macro">@end(<span class="name">terminal switcher</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">30</div>
+<code>
+<span class="macro">@def(<span class="name">switch to raw</span>)</span><br/>
+<span class="in1"></span><span class="fn">tcgetattr</span>(<span class="var">STDIN_FILENO</span>, &amp;<span class="var">orig_</span>);<br/>
+<span class="in1"></span><span class="var">termios</span> <span class="var">raw</span> { <span class="var">orig_</span> };<br/>
+<span class="in1"></span><span class="var">raw</span>.<span class="var">c_lflag</span> &amp;= ~ (<span class="var">ECHO</span> | <span class="var">ICANON</span>);<br/>
+<span class="in1"></span><span class="fn">tcsetattr</span>(<br/>
+<span class="in2"></span><span class="var">STDIN_FILENO</span>, <span class="var">TCSAFLUSH</span>, &amp;<span class="var">raw</span><br/>
+<span class="in1"></span>);<br/>
+<span class="macro">@end(<span class="name">switch to raw</span>)</span><br/>
+</code></div>
+</div>
+<div class="page"><div class="slide"><div class="slide-nr">31</div>
+<code>
+<span class="macro">@def(<span class="name">switch back</span>)</span><br/>
+<span class="in1"></span><span class="fn">tcsetattr</span>(<br/>
+<span class="in2"></span><span class="var">STDIN_FILENO</span>, <span class="var">TCSAFLUSH</span>, &amp;<span class="var">orig_</span><br/>
+<span class="in1"></span>);<br/>
+<span class="macro">@end(<span class="name">switch back</span>)</span><br/>
+</code></div>
+</div>
+</body>
+</html>

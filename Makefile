@@ -1,8 +1,23 @@
-.PHONY: clean
+.PHONY: full clean
 
-CXXFLAGS += -Wall
+HX_SRCs = $(shell hx-srcs.sh)
+SRCs = $(shell hx-files.sh $(HX_SRCs))
 
-minimon: minimon.cpp
+CXXFLAGS += -Wall -std=c++17 -Os
+
+full: hx_run minimon
+
+hx_run: $(HX_SRCs)
+	@echo HX
+	@hx
+	@date >$@
+	@make --no-print-directory minimon
+
+$(SRCs): hx_run
 
 clean:
-	rm -f minimon
+	@echo RM
+	@rm -f $(SRCs) minimon
+
+
+minimon: minimon.cpp
