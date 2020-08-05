@@ -46,3 +46,6 @@ With `j` you can jump to the machine programm at the current memory address.
 
 You can build `minimon` by running `make` on your terminal.
 
+## Source
+
+View documented source at <https://itmm.github.io/minimon/>.
