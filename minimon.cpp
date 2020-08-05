@@ -24,6 +24,11 @@ void write_nibble(int nibble) {
 	}
 }
 
+inline void write_byte(int byte) {
+	write_nibble(byte >> 4);
+	write_nibble(byte & 0xf);
+}
+
 void write_addr(unsigned long addr, int cnt) {
 	if (cnt) { write_addr(addr >> 4, cnt - 1); }
 	write_nibble(static_cast<int>(addr & 0xf));
@@ -46,8 +51,7 @@ void add(char ch, int nibble) {
 		addr = value;
 		nibbles = 2;
 		put("\x1b[0E\x1b[2K");
-		write_nibble(value >> 4);
-		write_nibble(value & 0xf);
+		write_byte(value);
 		value = 0;
 	}
 	if (nibbles < ADDR_NIBBLES) {
@@ -84,7 +88,10 @@ int main() {
 	clear();
 	for (;;) {
 		int ch { get() };
-		if (ch == EOF || ch == 0x04) { break; }
+		if (ch == EOF || ch == 0x04 || ch == 'q') {
+			put("quit\n");
+			break;
+		}
 		if (ch >= '0' && ch <= '9') {
 			add(ch, ch - '0');
 		} else if (ch >= 'a' && ch <= 'f') {
@@ -94,8 +101,7 @@ int main() {
 				*reinterpret_cast<unsigned char *>(addr) = value;
 			} else if (nibbles == ADDR_NIBBLES) {
 				value = *reinterpret_cast<unsigned char *>(addr);
-				write_nibble(value >> 4);
-				write_nibble(value & 0xf);
+				write_byte(value);
 			} else {
 				put('\a');
 				continue;
@@ -105,6 +111,9 @@ int main() {
 		} else if (ch == 'j' && nibbles == ADDR_NIBBLES) {
 			put("jump\n");
 			reinterpret_cast<void (*)()>(addr)();
+			clear();
+		} else if (ch == 'x') {
+			put("reset\n");
 			clear();
 		} else {
 			put('\a');
